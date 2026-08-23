@@ -9,6 +9,7 @@ export const site = {
   email: "hello@example.com",
   // Wordmark text shown in the navbar/footer (styled as a script logo placeholder).
   logo: "Logo",
+  discordUrl: "https://discord.gg/A85Yj7Q8k",
 };
 
 export type NavItem = { label: string; href: string };

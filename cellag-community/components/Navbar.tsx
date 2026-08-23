@@ -68,12 +68,14 @@ export function Navbar() {
 
         {/* Desktop actions */}
         <div className="hidden items-center gap-3 md:flex">
-          <Link href="/about" className="btn-ghost">
-            Sign up
-          </Link>
-          <Link href="/about" className="btn-primary">
+          <a
+            href={site.discordUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary"
+          >
             Join
-          </Link>
+          </a>
         </div>
 
         {/* Mobile toggle */}
@@ -107,9 +109,15 @@ export function Navbar() {
                 {item.label}
               </Link>
             ))}
-            <Link href="/about" onClick={() => setOpen(false)} className="btn-primary mt-3">
+            <a
+              href={site.discordUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setOpen(false)}
+              className="btn-primary mt-3"
+            >
               Join
-            </Link>
+            </a>
           </div>
         </nav>
       )}

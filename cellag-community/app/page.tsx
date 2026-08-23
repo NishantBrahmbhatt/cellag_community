@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { MediaPlaceholder } from "@/components/Section";
 import { articles } from "@/lib/articles";
+import { site } from "@/lib/site";
 
 const pillars = [
   {
@@ -43,9 +44,14 @@ export default function HomePage() {
               <Link href="/articles" className="btn-primary">
                 Articles
               </Link>
-              <Link href="/about" className="btn-ghost">
+              <a
+                href={site.discordUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-ghost"
+              >
                 Join us
-              </Link>
+              </a>
             </div>
           </div>
           <MediaPlaceholder className="mt-16 aspect-[16/9] w-full rounded-xl" />
@@ -164,9 +170,14 @@ export default function HomePage() {
               lab required.
             </p>
             <div className="mt-8 flex justify-center gap-3">
-              <Link href="/about" className="btn-primary">
+              <a
+                href={site.discordUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-primary"
+              >
                 Join
-              </Link>
+              </a>
               <Link href="/about" className="btn-ghost">
                 Learn
               </Link>
