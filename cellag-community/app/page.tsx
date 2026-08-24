@@ -1,191 +1,147 @@
 import Link from "next/link";
-import { MediaPlaceholder } from "@/components/Section";
-import { articles } from "@/lib/articles";
 import { site } from "@/lib/site";
+import { pickHomePalette } from "@/lib/home-palettes";
 
-const pillars = [
-  {
-    title: "Learn the science",
-    body: "Master the fundamentals of cell biology, tissue engineering, and bioprocess design through guided pathways.",
-  },
-  {
-    title: "Build projects",
-    body: "Design experiments, prototype ideas, and get hands-on with the tools shaping the future of food.",
-  },
-  {
-    title: "Publish your work",
-    body: "Write articles, share findings, and contribute to a growing body of knowledge by young researchers.",
-  },
+// Fresh palette on every request / reload.
+export const dynamic = "force-dynamic";
+
+// Rotating headlines in the top ticker. Edit freely.
+const tickerItems = [
+  "The community is live — join us on Discord",
+  "First member articles coming soon",
+  "New: workshop on building a bioreactor from spare parts",
+  "Browse curated resources for teens getting into biotech",
 ];
 
-const Chevron = () => (
-  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden>
-    <path d="M5 3l4 4-4 4" stroke="currentColor" strokeWidth="1.6" />
-  </svg>
-);
+// The six pill buttons at the bottom = your six sub-pages.
+const navPills = [
+  { label: "About us ", href: "/about" },
+  { label: "Founders", href: "/founders" },
+  { label: "Updates", href: "/updates" },
+  { label: "Events", href: "/events" },
+  { label: "Articles", href: "/articles" },
+  { label: "Resources", href: "/resources" },
+];
 
 export default function HomePage() {
-  const latest = articles.slice(0, 4);
+  const palette = pickHomePalette();
+
+  const theme = {
+    backgroundColor: palette.bg,
+    color: palette.text,
+    ["--home-text" as string]: palette.text,
+    ["--home-pill-bg" as string]: palette.pillBg,
+    ["--home-pill-text" as string]: palette.pillText,
+    ["--home-pill-hover" as string]: palette.pillHover,
+    ["--home-muted" as string]: palette.muted,
+    ["--home-line" as string]: palette.line,
+    ["--home-blob" as string]: palette.blob,
+  };
 
   return (
-    <>
-      {/* Hero */}
-      <section className="border-b border-line">
-        <div className="container-page py-20 sm:py-28">
-          <div className="mx-auto max-w-4xl text-center animate-fade-up">
-            <h1 className="display text-5xl text-white sm:text-7xl">
-              Grow the future from a single cell
-            </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-lg text-white/70">
-              We are a community of students learning to grow real meat, dairy, and fat from cells.
-              Start building the science that could feed the world.
-            </p>
-            <div className="mt-8 flex justify-center gap-3">
-              <Link href="/articles" className="btn-primary">
-                Articles
-              </Link>
-              <a
-                href={site.discordUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-ghost"
-              >
-                Join us
-              </a>
-            </div>
-          </div>
-          <MediaPlaceholder className="mt-16 aspect-[16/9] w-full rounded-xl" />
-        </div>
-      </section>
-
-      {/* What is cellular agriculture */}
-      <section className="border-b border-line">
-        <div className="container-page grid items-center gap-10 py-16 sm:py-24 lg:grid-cols-2">
-          <div>
-            <span className="eyebrow">Explain</span>
-            <h2 className="display mt-4 text-4xl text-white sm:text-5xl">
-              What is cellular agriculture anyway
-            </h2>
-            <p className="mt-5 max-w-md text-lg leading-relaxed text-white/70">
-              It is the science of growing real animal products from cells instead of animals. We
-              take a few cells, feed them nutrients in a bioreactor, and watch them become meat,
-              milk, or fat.
-            </p>
-            <div className="mt-8 flex items-center gap-5">
-              <Link href="/about" className="btn-ghost">
-                Learn
-              </Link>
-              <Link href="/resources" className="btn-link">
-                Read <Chevron />
-              </Link>
-            </div>
-          </div>
-          <MediaPlaceholder className="aspect-square w-full rounded-xl" />
-        </div>
-      </section>
-
-      {/* Mission */}
-      <section className="border-b border-line">
-        <div className="container-page grid items-center gap-10 py-16 sm:py-24 lg:grid-cols-2">
-          <MediaPlaceholder className="order-last aspect-square w-full rounded-xl lg:order-first" />
-          <div>
-            <span className="eyebrow">Mission</span>
-            <h2 className="display mt-4 text-4xl text-white sm:text-5xl">
-              We build scientists, not just students
-            </h2>
-            <p className="mt-5 text-lg leading-relaxed text-white/70">
-              We give young people the tools to learn the science, build real projects, and publish
-              work that matters.
-            </p>
-            <div className="mt-8 space-y-5">
-              {pillars.map((p) => (
-                <div key={p.title} className="border-t border-line pt-4">
-                  <h3 className="display text-xl text-white">{p.title}</h3>
-                  <p className="mt-1 text-sm leading-relaxed text-white/60">{p.body}</p>
-                </div>
+    <section
+      className="relative flex min-h-screen flex-col overflow-hidden"
+      style={theme}
+    >
+      {/* Ticker strip */}
+      <div
+        className="overflow-hidden border-b py-3"
+        style={{ borderColor: "var(--home-line)" }}
+      >
+        <div className="marquee flex whitespace-nowrap">
+          {[0, 1].map((copy) => (
+            <div
+              key={copy}
+              aria-hidden={copy === 1}
+              className="flex shrink-0 items-center gap-8 pr-8"
+            >
+              {tickerItems.map((item, i) => (
+                <span
+                  key={i}
+                  className="flex items-center gap-8 text-sm font-semibold uppercase tracking-wider"
+                  style={{ color: "var(--home-text)" }}
+                >
+                  {item}
+                  <span
+                    className="inline-block h-1.5 w-1.5 rounded-full"
+                    style={{ backgroundColor: "var(--home-text)" }}
+                  />
+                </span>
               ))}
             </div>
-            <div className="mt-8 flex items-center gap-5">
-              <Link href="/about" className="btn-ghost">
-                About
-              </Link>
-              <Link href="/about" className="btn-link">
-                Read <Chevron />
-              </Link>
-            </div>
-          </div>
+          ))}
         </div>
-      </section>
+      </div>
 
-      {/* Latest articles */}
-      <section className="border-b border-line">
-        <div className="container-page py-16 sm:py-24">
-          <div className="flex items-end justify-between gap-6">
-            <div>
-              <span className="eyebrow">Blog</span>
-              <h2 className="display mt-4 text-4xl text-white sm:text-5xl">Latest articles</h2>
-              <p className="mt-4 max-w-lg text-lg text-white/70">
-                New writing from our community, published every week.
-              </p>
-            </div>
-            <Link href="/articles" className="btn-ghost hidden shrink-0 sm:inline-flex">
-              View all
+      {/* Split wordmark — LOGO on the left, NAME on the right. Swap for real brand later. */}
+      <div className="mx-auto flex w-full max-w-[100rem] items-start justify-between px-4 pt-6 sm:px-5 lg:px-6">
+        <span
+          className="display text-4xl sm:text-6xl lg:text-7xl"
+          style={{ color: "var(--home-text)" }}
+        >
+          LOGO
+        </span>
+        <span
+          className="display text-4xl sm:text-6xl lg:text-7xl"
+          style={{ color: "var(--home-text)" }}
+        >
+          NAME
+        </span>
+      </div>
+
+      {/* Center — huge headline + central visual placeholder */}
+      <div className="relative mx-auto flex w-full max-w-[100rem] flex-1 flex-col items-center justify-center px-4 py-10 sm:px-5 lg:px-6">
+        <div
+          aria-hidden
+          className="absolute left-1/2 top-1/2 aspect-square w-[min(70vw,36rem)] -translate-x-1/2 -translate-y-1/2 rounded-full blur-sm"
+          style={{ backgroundColor: "var(--home-blob)" }}
+        />
+        <h1
+          className="display relative text-center text-6xl leading-[0.9] sm:text-8xl lg:text-[9.5rem]"
+          style={{ color: "var(--home-text)" }}
+        >
+          Growing the
+          <br />
+          future.
+        </h1>
+      </div>
+
+      {/* 3×2 pill nav — near full-bleed like Hoxton */}
+      <div className="mx-auto w-full max-w-[100rem] px-3 pb-3 sm:px-4 lg:px-5">
+        <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-2.5 lg:gap-3">
+          {navPills.map((p) => (
+            <Link
+              key={p.href}
+              href={p.href}
+              className="home-pill flex min-h-[3.75rem] items-center justify-center rounded-full px-6 py-5 text-lg font-semibold lowercase transition sm:min-h-[4.5rem] sm:px-8 sm:py-6 sm:text-xl lg:min-h-[5.25rem] lg:text-2xl"
+              style={{
+                backgroundColor: "var(--home-pill-bg)",
+                color: "var(--home-pill-text)",
+              }}
+            >
+              {p.label}
             </Link>
-          </div>
-
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {latest.map((a) => (
-              <article key={a.slug} className="card flex flex-col overflow-hidden">
-                <MediaPlaceholder className="aspect-[4/3] w-full" />
-                <div className="flex flex-1 flex-col p-5">
-                  <div className="flex items-center gap-2 text-xs text-white/50">
-                    <span className="rounded bg-white/10 px-2 py-0.5 font-medium text-white/80">
-                      {a.category}
-                    </span>
-                    <span>{a.readingTime}</span>
-                  </div>
-                  <h3 className="display mt-3 text-lg leading-tight text-white">
-                    <Link href={`/articles/${a.slug}`} className="transition hover:text-accent">
-                      {a.title}
-                    </Link>
-                  </h3>
-                  <p className="mt-2 flex-1 text-sm leading-relaxed text-white/60">{a.excerpt}</p>
-                  <Link href={`/articles/${a.slug}`} className="btn-link mt-4">
-                    Read more <Chevron />
-                  </Link>
-                </div>
-              </article>
-            ))}
-          </div>
+          ))}
         </div>
-      </section>
+      </div>
 
-      {/* CTA */}
-      <section>
-        <div className="container-page py-20 sm:py-28">
-          <div className="mx-auto max-w-3xl text-center">
-            <h2 className="display text-4xl text-white sm:text-6xl">Start building the future today</h2>
-            <p className="mx-auto mt-5 max-w-xl text-lg text-white/70">
-              Join a community of students learning to grow real meat, dairy, and fat from cells. No
-              lab required.
-            </p>
-            <div className="mt-8 flex justify-center gap-3">
-              <a
-                href={site.discordUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-primary"
-              >
-                Join
-              </a>
-              <Link href="/about" className="btn-ghost">
-                Learn
-              </Link>
-            </div>
-          </div>
-          <MediaPlaceholder className="mt-16 aspect-[16/9] w-full rounded-xl" />
-        </div>
-      </section>
-    </>
+      {/* Bottom strip */}
+      <div
+        className="mx-auto flex w-full max-w-[100rem] flex-wrap justify-between gap-2 px-4 py-3 text-[10px] uppercase tracking-wider sm:px-5 lg:px-6"
+        style={{ color: "var(--home-muted)" }}
+      >
+        <span>
+          © {new Date().getFullYear()} {site.name} ·{" "}
+          <a
+            href="#"
+            className="transition hover:opacity-100"
+            style={{ color: "var(--home-text)", opacity: 0.7 }}
+          >
+            Privacy policy
+          </a>
+        </span>
+        <span>Proudly building the future of food.</span>
+      </div>
+    </section>
   );
 }

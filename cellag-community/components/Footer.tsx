@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { footerNav, site } from "@/lib/site";
 
 const socials = [
@@ -10,6 +13,9 @@ const socials = [
 ];
 
 export function Footer() {
+  const pathname = usePathname();
+  if (pathname === "/") return null;
+
   return (
     <footer className="border-t border-line bg-bg">
       <div className="container-page py-12">

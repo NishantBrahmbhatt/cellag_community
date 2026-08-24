@@ -62,3 +62,16 @@ body {
     @apply flex items-center justify-center bg-surface2 text-white/25;
   }
 }
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.marquee {
+  animation: marquee 40s linear infinite;
+}
+
+.home-pill:hover {
+  background-color: var(--home-pill-hover) !important;
+}

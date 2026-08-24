@@ -1,10 +1,14 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useState } from "react";
 import { primaryNav, exploreNav, site } from "@/lib/site";
 
 export function Navbar() {
+  const pathname = usePathname();
+  if (pathname === "/") return null;
+
   const [open, setOpen] = useState(false); // mobile menu
   const [exploreOpen, setExploreOpen] = useState(false); // desktop dropdown
 
